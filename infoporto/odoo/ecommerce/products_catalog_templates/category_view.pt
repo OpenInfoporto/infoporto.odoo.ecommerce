@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="infoporto.odoo.ecommerce">
+<body>
+
+<metal:main fill-slot="content-core">
+  <metal:content-core define-macro="content-core">
+
+    <!-- categories breadcrum -->
+    <ol class="breadcrumb">
+      <tal:block tal:repeat="parent view/getAncestors">
+        <li><a tal:content="parent/name" tal:attributes="href string:@@category_view?cid=${parent/id}"/></li>
+      </tal:block>
+    </ol>
+
+    <h1 tal:content="view/current/name" />
+
+    <tal:block tal:condition="view/categories">
+      <h3>Categories</h3>
+      <tal:block tal:repeat="category view/categories">
+        <li><a tal:content="category/name" tal:attributes="href string:@@category_view?cid=${category/id}" /></li>
+      </tal:block>
+    </tal:block>
+
+    <h3>Products</h3>
+    <tal:block tal:repeat="product view/products">
+      <div class="odoo-product-block">
+        <h3><a tal:attributes="href string:@@product_view?pid=${product/id}&cid=${product/categ_id}" tal:content="product/name" /></h3>
+
+        <div class="odoo-product-picture">
+          <img tal:attributes="src product/image_medium"/>
+        </div>
+
+
+        <div class="odoo-product-description" tal:content="product/description"/>
+        <div class="odoo-product-price" tal:content="product/lst_price"/>
+
+      </div>
+    </tal:block>
+
+  </metal:content-core>
+</metal:main>
+
+</body>
+</html>
+

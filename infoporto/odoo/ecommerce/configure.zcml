@@ -1,0 +1,92 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="infoporto.odoo.ecommerce">
+
+  <!-- Include configuration for dependencies listed in setup.py -->
+  <includeDependencies package="." />
+
+  <include package="plone.registry" />
+  <include package="plone.app.portlets" />
+
+  <!-- Grok the package to initialize schema interfaces and content classes -->
+  <grok:grok package="." />
+
+  <!-- Register a resource directory from which we can deploy static
+   resource files.-->
+  <browser:resourceDirectory
+    name="infoporto.odoo.ecommerce"
+    directory="resources" />
+
+
+  <!--<i18n:registerTranslations directory="locales" />-->
+
+  <!-- Register an extension profile to make the product installable
+       in Plone -->
+  <genericsetup:registerProfile
+      name="default"
+      title="Odoo E-commerce"
+      directory="profiles/default"
+      description="Odoo connector for ecommerce functionalities"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <!-- -*- extra stuff goes here -*- -->
+
+  <browser:page
+    name="category_view"
+    for="*"
+    permission="zope2.View"
+    class=".category_controller.CategoryView"
+    />
+
+  <browser:page
+    name="product_view"
+    for="*"
+    permission="zope2.View"
+    class=".product_controller.ProductView"
+    />
+
+  <browser:page
+    name="add_to_cart"
+    for="*"
+    permission="zope2.View"
+    class=".product_controller.ProductActions"
+    />
+
+  <browser:page
+    name="checkout-cart"
+    for="*"
+    permission="zope2.View"
+    class=".product_controller.CheckoutActions"
+    />
+
+  <browser:page
+    name="checkout-cart-confirm"
+    for="*"
+    permission="zope2.View"
+    class=".product_controller.CheckoutConfirmActions"
+    />
+
+  <browser:page
+    name="checkout-do"
+    for="*"
+    permission="zope2.View"
+    class=".product_controller.CheckoutDoActions"
+    />
+
+ <plone:portlet
+   name="infoporto.odoo.ecommerce.CartPortlet"
+   interface=".cartportlet.ICartPortlet"
+   assignment=".cartportlet.Assignment"
+   renderer=".cartportlet.Renderer"
+   addview=".cartportlet.AddForm"
+   editview=".cartportlet.EditForm"
+   />
+
+</configure>

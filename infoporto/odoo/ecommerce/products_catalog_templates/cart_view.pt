@@ -1,0 +1,11 @@
+<tal:block tal:condition="view/get_elements" tal:repeat="item view/get_elements">
+    <div class="cart-element">
+        <h5 tal:content="item/name" />
+        <p class="cart-element-price" tal:content="item/lst_price" />
+    </div>
+</tal:block>
+
+    <div class="cart-total">
+        <label>Total</label>
+        <span tal:content="view/get_total_price" />
+    </div>

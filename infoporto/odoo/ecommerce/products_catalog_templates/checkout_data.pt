@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="infoporto.odoo.ecommerce">
+<body>
+
+<metal:main fill-slot="content-core">
+  <metal:content-core define-macro="content-core">
+
+    <h2>Order Summary</h2>
+
+    <h2>Payment and shipment details</h2>
+
+    <form class="form-horizontal" role="form" id="payment-form" method="POST" action="#">
+
+      <div class="form-group">
+        <label for="number" class="col-sm-2 control-label">Buyer</label>
+        <div class="col-sm-10">
+          <input type="text" name="first_name" class="form-control" id="first_name">
+            <input type="text" name="last_name" class="form-control" id="last_name">
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="payment_method" class="col-sm-2 control-label">payment_method</label>
+        <div class="col-sm-10">
+          <select name="payment_method" required="required">
+            <option value="visa">visa</option>
+            <option value="mastercard">mastercard</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="number" class="col-sm-2 control-label">number</label>
+        <div class="col-sm-10">
+          <input type="text" name="number" class="form-control" id="number" required="required">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="number" class="col-sm-2 control-label">Expire</label>
+        <div class="col-sm-10">
+          <input type="text" name="expire_month" class="form-control" id="expire_month" required="required">
+          <input type="text" name="expire_year" class="form-control" id="expire_year" required="required">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="number" class="col-sm-2 control-label">CVV2</label>
+        <div class="col-sm-10">
+          <input type="text" name="cvv2" class="form-control" id="cvv2" required="required">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Proceed</button>
+        </div>
+      </div>
+    </form>
+
+
+  </metal:content-core>
+</metal:main>
+
+</body>
+</html>
+

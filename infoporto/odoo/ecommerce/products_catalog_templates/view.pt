@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="infoporto.odoo.ecommerce">
+
+<head>
+    <metal:block fill-slot="style_slot">
+        <link rel="stylesheet" type="text/css"
+            tal:define="navroot context/@@plone_portal_state/navigation_root_url"
+            tal:attributes="href string:${navroot}/++resource++infoporto.odoo.ecommerce/odoo_ecommerce.css"
+            />
+    </metal:block>
+</head>
+
+<body>
+
+<metal:main fill-slot="content-core">
+  <metal:content-core define-macro="content-core">
+
+
+    <h2>Categories</h2>
+    <tal:block tal:repeat="category context/getCategories">
+      <div class="odoo-category-block">
+
+        <h3><a tal:content="category/name" tal:attributes="href string:@@category_view?cid=${category/id}" /></h3>
+
+        <!--
+          More informations should be fine if provided from Odoo
+        <p class="odoo-category-description" tal:content="category/description" />
+
+        <div class="odoo-category-smallinfo">
+          <span class="value" tal:content="category/numChild" /> Categories
+          <span class="value" tal:content="category/numProducts" /> Products
+        </div>
+        -->
+      </div>
+    </tal:block>
+
+    <h2>Showcase</h2>
+    <!-- TODO: showcase should be managed from Odoo -->
+    <tal:block tal:repeat="product context/getInShowcase">
+      <div class="odoo-product-block">
+        <h3><a tal:attributes="href string:@@product_view?pid=${product/id}&cid=${product/categ_id}" tal:content="product/name" /></h3>
+
+        <div class="odoo-product-picture">
+          <img tal:attributes="src product/image_medium"/>
+        </div>
+
+
+        <div class="odoo-product-description" tal:content="product/description"/>
+        <div class="odoo-product-price" tal:content="product/lst_price"/>
+        <div>
+        <span tal:attributes="data-product_id product/id" class="btn btn-primary btn-add_to_cart">Add to cart</span>
+        </div>
+      </div>
+    </tal:block>
+
+  </metal:content-core>
+</metal:main>
+
+</body>
+</html>
+

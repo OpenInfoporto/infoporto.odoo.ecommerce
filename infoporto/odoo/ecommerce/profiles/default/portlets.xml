@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<portlets>
+
+ <!-- Portlet type registrations -->
+
+ <portlet
+   addview="infoporto.odoo.ecommerce.CartPortlet"
+   title="Shopping cart"
+   description="Shopping cart"
+   />
+
+</portlets>

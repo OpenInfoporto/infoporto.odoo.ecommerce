@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="infoporto.odoo.ecommerce">
+<body>
+
+<metal:main fill-slot="content-core">
+  <metal:content-core define-macro="content-core">
+
+    <!-- categories breadcrum -->
+    <ol class="breadcrumb">
+      <tal:block tal:repeat="parent view/getAncestors">
+        <li><a tal:content="parent/name" tal:attributes="href string:@@category_view?cid=${parent/id}"/></li>
+      </tal:block>
+    </ol>
+
+    <h1 class="product-title" tal:content="view/product/name">product name</h1>
+
+    <div class="picture">
+      <img tal:attributes="src view/product/image_medium" />
+    </div>
+
+    <div class="product-description" tal:content="view/product/description"
+        tal:condition="view/product/description" />
+
+    <div class="prices">
+      <p tal:content="view/product/lst_price" />
+    </div>
+
+  </metal:content-core>
+</metal:main>
+
+</body>
+</html>
+

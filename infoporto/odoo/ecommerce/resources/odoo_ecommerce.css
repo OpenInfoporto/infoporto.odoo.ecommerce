@@ -1,0 +1,40 @@
+.odoo-product-block {
+    display: inline-table;
+    vertical-align: top;
+    width: 150px;
+    margin: 3px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 5px:
+    padding-bottom: 5px:
+}
+
+.odoo-product-block h3 {
+    font-weight: 200;
+    width: 140px;
+}
+
+
+.odoo-product-block .odoo-product-picture {
+    text-align: center;
+}
+
+.odoo-product-block .odoo-product-picture > img {
+    border: 1px solid rgba(0,0,0,0.1);
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.1);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.btn:hover {
+    background-color: rgba(0,0,0,0.2);
+}
