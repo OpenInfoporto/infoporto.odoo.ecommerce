@@ -1,6 +1,6 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from odoo_lib import Odoo
+from lib.odoo import Odoo
 
 
 class ProductView(BrowserView):
@@ -153,7 +153,7 @@ class CheckoutDoActions(BrowserView):
         if pp.pay():
             # payment succeded, creating sales order in Odoo
             import pdb; pdb.set_trace()
-            odoo.createSalesOrder(payment)
+            self.odoo.createSalesOrder(payment)
         else:
             # payment failed, what can I do?
             import pdb; pdb.set_trace()

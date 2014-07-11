@@ -5,6 +5,7 @@ class Odoo(object):
 
     # product.category
     def getAncestors(self, cid):
+        """ Retrieve recursively all parents for the given cid """
         odoo_core = OdooInstance()
         res = []
         last_found = cid
@@ -72,7 +73,7 @@ class Odoo(object):
         return self.sanitizeProduct(product)
 
     def getInShowcase(self):
-        odoo_core = OdooInstance()
+        #odoo_core = OdooInstance()
         #TODO: an attribute shoudl be added to Odoo product management
         return self.getProducts()
 
@@ -96,6 +97,9 @@ class Odoo(object):
         return p
 
     def createSalesOrder(params):
+        """ Create a partner if the e-mail weren't found, create a Sales Order
+            and its Sales Order Line """
+
         # change params to reflect given data
         odoo_core = OdooInstance()
 
@@ -127,4 +131,6 @@ class Odoo(object):
 
         sol_id = odoo_core.create('sale.order.line', sol)
 
-        return so_id
+        #FIXME: taxes?!?
+
+        return sol_id

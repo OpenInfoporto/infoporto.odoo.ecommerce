@@ -7,7 +7,7 @@ from plone.app.textfield import RichText
 from plone.namedfile.interfaces import IImageScaleTraversable
 
 from infoporto.odoo.ecommerce import MessageFactory as _
-from odoo_lib import Odoo
+from lib.odoo import Odoo
 
 
 class IProductsCatalog(form.Schema, IImageScaleTraversable):
