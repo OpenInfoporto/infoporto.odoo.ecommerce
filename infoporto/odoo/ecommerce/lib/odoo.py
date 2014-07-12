@@ -96,7 +96,7 @@ class Odoo(object):
 
         return p
 
-    def createSalesOrder(params):
+    def createSalesOrder(self, params):
         """ Create a partner if the e-mail weren't found, create a Sales Order
             and its Sales Order Line """
 
@@ -109,15 +109,16 @@ class Odoo(object):
 
         # ... otherwise create
         if not ids:
-            user = {}
+            user = dict(name=params['user']['name'],
+                        email=params['user']['email'])
             partner_id = odoo_core.create('res.partner', user)
 
         # build sales order
         so = dict(partner_id=ids[0] or partner_id,
                   state="manual",
-                  amount_total=params['amount_total'],
-                  amount_tax=params['amount_tax'],
-                  amount_untaxed=params['amount_untaxed'])
+                  amount_total=params['total'] * 1.22,
+                  amount_tax=params['total'] * 1.22 - params['total'],
+                  amount_untaxed=params['total'])
         so_id = odoo_core.create('sale.order', so)
 
         sol = dict(order_id=so_id,

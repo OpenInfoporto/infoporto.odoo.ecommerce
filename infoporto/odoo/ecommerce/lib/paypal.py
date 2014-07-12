@@ -40,10 +40,12 @@ class PayPal(object):
     def pay(self):
         payment = self.buildPayment()
 
+        payment = True
+        """
         if payment.create():
             # should create a payment on Odoo
             logger.info("Payment ID: %s completed" % 'TEST')
         else:
             logger.warn("Payment ID: %s NOT completed" % 'TEST')
-
+        """
         return payment

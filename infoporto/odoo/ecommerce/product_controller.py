@@ -1,6 +1,12 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from lib.odoo import Odoo
+from plone import api
+
+import logging
+
+
+logger = logging.getLogger("Plone")
 
 
 class ProductView(BrowserView):
@@ -151,11 +157,24 @@ class CheckoutDoActions(BrowserView):
 
         pp = PayPal(params=payment)
         if pp.pay():
-            # payment succeded, creating sales order in Odoo
-            import pdb; pdb.set_trace()
-            self.odoo.createSalesOrder(payment)
+            payment['user'] = dict(email=api.user.get_current().email,
+                                   name="%s %s" %
+                                        (self.request.get('first_name'),
+                                         self.request.get('last_name')))
+
+            try:
+                self.odoo.createSalesOrder(payment)
+                api.portal.show_message(message='Order confirmed.',
+                                        request=self.request, type='info')
+            except Exception as e:
+                api.portal.show_message(message='Problem creating Sales Orderer',
+                                        request=self.request, type='error')
+                logger.error("Problem creating Sales Order on Odoo %s " % e)
         else:
             # payment failed, what can I do?
             import pdb; pdb.set_trace()
+            api.portal.show_message(message='Problem during payment',
+                                    request=self.request, type='error')
+            logger.error("Problem during payment")
 
         return self.template()
