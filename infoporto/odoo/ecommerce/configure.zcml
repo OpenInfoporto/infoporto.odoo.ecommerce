@@ -60,6 +60,13 @@
     />
 
   <browser:page
+    name="empty-cart"
+    for="*"
+    permission="zope2.View"
+    class=".product_controller.CartActions"
+    />
+
+  <browser:page
     name="checkout-cart"
     for="*"
     permission="zope2.View"

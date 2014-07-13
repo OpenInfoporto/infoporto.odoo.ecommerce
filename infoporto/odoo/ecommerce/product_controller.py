@@ -50,7 +50,7 @@ class ProductActions(BrowserView):
         cart = self.get_elements()
         if cart:
             for el in cart:
-                total += float(el['lst_price'])
+                total += float(el['price_total'])
 
         return Money(amount=total, currency=curr.get('currency_id')[1])
 
@@ -113,8 +113,42 @@ class CheckoutActions(BrowserView):
 class CheckoutConfirmActions(BrowserView):
     template = ViewPageTemplateFile('products_catalog_templates/checkout_data.pt')
 
+    def get_elements(self):
+        sdm = self.context.session_data_manager
+        session = sdm.getSessionData(create=True)
+        cart = session.get('cart_elements')
+
+        return cart
+
+    def get_total_price(self):
+        from money import Money
+        #TODO: currency should be param
+
+        total = 0.0
+        cart = self.get_elements()
+        if cart:
+            for el in cart:
+                total += float(el['price'])
+
+        return Money(amount=total, currency='EUR')
+
     def __call__(self):
         return self.template()
+
+
+class CartActions(BrowserView):
+
+    def emptyCart(self):
+        sdm = self.context.session_data_manager
+        session = sdm.getSessionData(create=True)
+        del session['cart_elements']
+
+    def __call__(self):
+        self.emptyCart()
+        api.portal.show_message(message='Cart is now empty',
+                                request=self.request, type='info')
+
+        return self.request.response.redirect(api.portal.get().absolute_url())
 
 
 class CheckoutDoActions(BrowserView):
@@ -164,6 +198,7 @@ class CheckoutDoActions(BrowserView):
 
             try:
                 self.odoo.createSalesOrder(payment)
+                self.emptyCart()
                 api.portal.show_message(message='Order confirmed.',
                                         request=self.request, type='info')
             except Exception as e:

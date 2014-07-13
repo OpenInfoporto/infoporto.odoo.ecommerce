@@ -12,7 +12,47 @@
 
     <h2>Order Summary</h2>
 
-    <h2>Payment and shipment details</h2>
+    <!-- order summary -->
+
+    <table class="table table-striped">
+      <tr>
+          <th></th>
+          <th>Product</th>
+          <th>Q.ty</th>
+          <th>Price</th>
+          <th></th>
+      <tr>
+      <tbody>
+          <tal:block tal:repeat="item view/get_elements">
+              <tr>
+                <td>
+                  <img class="checkout-cart-item-image" tal:attributes="src item/image_medium" />
+                </td>
+                <td>
+                    <h5 tal:content="item/name" />
+                    <div tal:content="item/description" class="checkout-cart-item-description"/>
+                </td>
+                <!--<td tal:content="item/qty" />-->
+                <td tal:content="item/lst_price" />
+                <td>
+                    <!-- actions -->
+                </td>
+              </tr>
+          </tal:block>
+
+          <tr class="checkout-cart-sum-row">
+                <td></td>
+                <td></td>
+                <!--<td/>-->
+                <td>
+                    <span class="checkout-cart-total" tal:content="view/get_total_price" />
+                </td>
+                <td></td>
+          </tr>
+      </tbody>
+    </table>
+
+    <h2>Shipment and payment details</h2>
 
     <form class="form-horizontal" role="form" id="payment-form" method="POST" action="#">
 

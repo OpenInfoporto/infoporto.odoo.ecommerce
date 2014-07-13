@@ -28,7 +28,9 @@
                   <img class="checkout-cart-item-image" tal:attributes="src item/image_medium" />
                 </td>
                 <td>
-                    <h5 tal:content="item/name" />
+                    <h5>
+                      <a tal:attributes="href string:@@product_view?pid=${item/id}&cid=${item/categ_id}" tal:content="item/name" />
+                    </h5>
                     <div tal:content="item/description" class="checkout-cart-item-description"/>
                 </td>
                 <!--<td tal:content="item/qty" />-->

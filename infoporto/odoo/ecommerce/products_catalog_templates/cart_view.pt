@@ -1,7 +1,10 @@
 <tal:block tal:condition="view/get_elements" tal:repeat="item view/get_elements">
     <div class="cart-element">
+        <div class="cart-picture">
+          <img tal:attributes="src item/image_medium"/>
+        </div>
         <h5 tal:content="item/name" />
-        <p class="cart-element-price" tal:content="item/lst_price" />
+        <p class="cart-element-price" tal:content="item/price_total" />
     </div>
 </tal:block>
 
