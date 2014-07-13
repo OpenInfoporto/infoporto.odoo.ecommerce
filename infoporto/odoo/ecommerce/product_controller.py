@@ -44,15 +44,15 @@ class ProductActions(BrowserView):
 
     def get_total_price(self):
         from money import Money
-        #TODO: currency should be param
 
+        curr = self.odoo.getCurrency()
         total = 0.0
         cart = self.get_elements()
         if cart:
             for el in cart:
                 total += float(el['lst_price'])
 
-        return Money(amount=total, currency='EUR')
+        return Money(amount=total, currency=curr.get('currency_id')[1])
 
     def addToCart(self, pid):
         cart = []

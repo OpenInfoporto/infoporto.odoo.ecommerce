@@ -1,6 +1,6 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from odoo_lib import Odoo
+from lib.odoo import Odoo
 
 
 class CategoryView(BrowserView):

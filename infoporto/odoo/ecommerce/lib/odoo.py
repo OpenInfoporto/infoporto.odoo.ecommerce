@@ -3,6 +3,14 @@ from infoporto.odoo.core.odoo import OdooInstance
 
 class Odoo(object):
 
+    # settings
+    def getCurrency(self):
+        """ Retrieve currency from Odoo Company settings """
+        odoo_core = OdooInstance()
+
+        # company ID should be dynamic
+        return odoo_core.read('res.company', 1, ['currency_id'])
+
     # product.category
     def getAncestors(self, cid):
         """ Retrieve recursively all parents for the given cid """
@@ -50,13 +58,16 @@ class Odoo(object):
             args = [('categ_id', '=', int(cid))]
 
         ids = odoo_core.search('product.product', args)
-
         products = odoo_core.read('product.product', ids,
                                   ['id', 'name', 'description',
                                    'lst_price', 'image', 'image_medium',
-                                   'categ_id'])
+                                   'categ_id', 'taxes_id'])
 
         for product in products:
+            tax = odoo_core.read('account.tax',
+                                 int(product['taxes_id'][0]), ['amount'])['amount']
+            product['tax'] = tax
+
             product = self.sanitizeProduct(product)
 
         return products
@@ -68,7 +79,11 @@ class Odoo(object):
         product = odoo_core.read('product.product', int(pid),
                                  ['id', 'name', 'description',
                                   'lst_price', 'image', 'image_medium',
-                                  'categ_id'])
+                                  'categ_id', 'taxes_id'])
+
+        tax = odoo_core.read('account.tax',
+                             int(product['taxes_id'][0]), ['amount'])['amount']
+        product['tax'] = tax
 
         return self.sanitizeProduct(product)
 
@@ -84,6 +99,7 @@ class Odoo(object):
         from money import Money
         p['price'] = p['lst_price']
         p['lst_price'] = Money(amount=p['lst_price'], currency='EUR')
+        p['price_total'] = Money(amount=p['price'] * (1 + p['tax']), currency='EUR')
 
         p['categ_id'] = p['categ_id'][0]
 

@@ -37,8 +37,14 @@
 
 
         <div class="odoo-product-description" tal:content="product/description"/>
-        <div class="odoo-product-price" tal:content="product/lst_price"/>
-
+        <div class="odoo-product-price" tal:content="product/price_total"/>
+        <div class="odoo-product-tax">
+          <span tal:content="python: product['lst_price']" />
+          tax <span tal:content="python: round(product['tax'],2) * 100" />%
+        </div>
+        <div>
+        <button tal:attributes="data-product_id product/id" class="btn btn-primary btn-add_to_cart">Add to cart</button>
+        </div>
       </div>
     </tal:block>
 

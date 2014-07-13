@@ -27,12 +27,15 @@
         tal:condition="view/product/description" />
 
     <div class="prices">
-      <p tal:content="view/product/lst_price" />
+      <div class="odoo-product-price" tal:content="view/product/price_total"/>
+      <span tal:content="python: view.product['lst_price']" />
+          tax <span tal:content="python: round(view.product['tax'],2) * 100" />%
     </div>
+
+    <button tal:attributes="data-product_id view/product/id" class="btn btn-primary btn-add_to_cart">Add to cart</button>
 
   </metal:content-core>
 </metal:main>
 
 </body>
 </html>
-
