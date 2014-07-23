@@ -64,10 +64,13 @@ class Odoo(object):
                                    'categ_id', 'taxes_id'])
 
         for product in products:
-            tax = odoo_core.read('account.tax',
-                                 int(product['taxes_id'][0]), ['amount'])['amount']
-            product['tax'] = tax
+            if product['taxes_id']:
+                tax = odoo_core.read('account.tax',
+                                     int(product['taxes_id'][0]), ['amount'])['amount']
+            else:
+                tax = 0.0
 
+            product['tax'] = tax
             product = self.sanitizeProduct(product)
 
         return products
@@ -81,8 +84,12 @@ class Odoo(object):
                                   'lst_price', 'image', 'image_medium',
                                   'categ_id', 'taxes_id'])
 
-        tax = odoo_core.read('account.tax',
-                             int(product['taxes_id'][0]), ['amount'])['amount']
+        if product['taxes_id']:
+            tax = odoo_core.read('account.tax',
+                                 int(product['taxes_id'][0]), ['amount'])['amount']
+        else:
+            tax = 0.0
+
         product['tax'] = tax
 
         return self.sanitizeProduct(product)
