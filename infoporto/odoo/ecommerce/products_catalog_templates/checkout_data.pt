@@ -26,13 +26,13 @@
           <tal:block tal:repeat="item view/get_elements">
               <tr>
                 <td>
-                  <img class="checkout-cart-item-image" tal:attributes="src item/image_medium" />
+                  <!-- <img class="checkout-cart-item-image" tal:attributes="src item/image_medium" /> -->
                 </td>
                 <td>
                     <h5 tal:content="item/name" />
                     <div tal:content="item/description" class="checkout-cart-item-description"/>
                 </td>
-                <!--<td tal:content="item/qty" />-->
+                <td>1</td>
                 <td tal:content="item/lst_price" />
                 <td>
                     <!-- actions -->
@@ -64,7 +64,19 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <h4>Delivery address</h4>
+        <div class="col-sm-10">
+          <label for="" class="col-sm-2 control-label">street</label>  <input type="text" name="street" class="form-control" id="street"/><br />
+          <label for="" class="col-sm-2 control-label">ZIP</label> <input type="text" name="zip" class="form-control" id="cap" size="5" /><br />
+          <label for="" class="col-sm-2 control-label">city</label> <input type="text" name="city" class="form-control" id="city"/><br />
+          <label for="" class="col-sm-2 control-label">province</label> <input type="text" name="province" class="form-control" size="2" id="province"/><br />
+          <label for="" class="col-sm-2 control-label">country</label><input type="text" name="country" class="form-control" id="country"/><br />
+        </div>
+      </div>
 
+
+      <h4>Payment method</h4>
       <div class="form-group">
         <label for="payment_method" class="col-sm-2 control-label">payment_method</label>
         <div class="col-sm-10">

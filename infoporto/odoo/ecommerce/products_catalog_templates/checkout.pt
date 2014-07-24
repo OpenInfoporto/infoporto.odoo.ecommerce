@@ -33,7 +33,7 @@
                     </h5>
                     <div tal:content="item/description" class="checkout-cart-item-description"/>
                 </td>
-                <!--<td tal:content="item/qty" />-->
+                <td>1</td>
                 <td tal:content="item/lst_price" />
                 <td>
                     <!-- actions -->
