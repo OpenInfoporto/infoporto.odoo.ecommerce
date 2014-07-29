@@ -67,13 +67,6 @@
     />
 
   <browser:page
-    name="checkout-cart"
-    for="*"
-    permission="zope2.View"
-    class=".product_controller.CheckoutActions"
-    />
-
-  <browser:page
     name="checkout-cart-confirm"
     for="*"
     permission="zope2.View"

@@ -14,7 +14,7 @@
         </div>
 
         <div class="cart-action">
-            <a class="btn btn-danger" tal:attributes="href string:@@checkout-cart">Checkout</a>
+            <a class="btn btn-danger" tal:attributes="href string:@@checkout-cart-confirm">Checkout</a>
             <a class="btn btn-default" tal:attributes="href string:@@empty-cart">Empty</a>
         </div>
     </dd>
