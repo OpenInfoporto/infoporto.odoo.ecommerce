@@ -83,6 +83,9 @@ class ProductActions(BrowserView):
 class CheckoutConfirmActions(BrowserView):
     template = ViewPageTemplateFile('products_catalog_templates/checkout_data.pt')
 
+    def get_user_data(self):
+        return api.user.get_current()
+
     def get_elements(self):
         sdm = self.context.session_data_manager
         session = sdm.getSessionData(create=True)
