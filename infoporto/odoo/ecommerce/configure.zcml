@@ -60,6 +60,13 @@
     />
 
   <browser:page
+    name="remove-item-cart"
+    for="*"
+    permission="zope2.View"
+    class=".product_controller.RemoveItem"
+    />
+
+  <browser:page
     name="empty-cart"
     for="*"
     permission="zope2.View"

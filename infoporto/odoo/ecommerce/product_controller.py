@@ -123,6 +123,26 @@ class CartActions(BrowserView):
 
         return self.request.response.redirect(api.portal.get().absolute_url())
 
+    def emptyCart(self):
+        cu = CartUtilities()
+        cu.emptyCart(self.context)
+
+
+class RemoveItem(BrowserView):
+
+    def __call__(self):
+        self.removeItem()
+        return True
+
+    def removeItem(self):
+        sdm = self.context.session_data_manager
+        session = sdm.getSessionData(create=True)
+
+        cart = session.get('cart_elements')
+        ncart = []
+        [el['id'] != int(self.request.get('product_id')) and ncart.append(el) for el in cart]
+        session.set("cart_elements", ncart)
+
 
 class CheckoutDoActions(BrowserView):
     odoo = Odoo()

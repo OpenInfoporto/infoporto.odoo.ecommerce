@@ -1,10 +1,13 @@
 <tal:block tal:condition="view/get_elements" tal:repeat="item view/get_elements">
-    <div class="cart-element">
+    <div class="cart-element" tal:attributes="id string:cart-el-${item/id}">
         <div class="cart-picture">
           <img tal:attributes="src item/image_medium"/>
         </div>
         <h5 tal:content="item/name" />
         <p class="cart-element-price" tal:content="item/price_total" />
+        <div class="cart-element-actions">
+            <button class="btn btn-mini cart-removeItem" tal:attributes="data-product_id item/id">Delete</button>
+        </div>
     </div>
 </tal:block>
 
@@ -12,3 +15,20 @@
         <label>Total</label>
         <span tal:content="view/get_total_price" />
     </div>
+
+<script>
+// remove from cart
+$('.cart-removeItem').on('click', function(){
+    product_id = $(this).data('product_id');
+    console.log(product_id);
+    $.ajax({
+        type: "POST",
+        url: portal_url+'/@@remove-item-cart',
+        data: {'product_id': product_id},
+        success: function(data){
+            console.log('ciao');
+            $('#cart-el-'+product_id).fadeOut()
+        }
+    });
+});
+</script>
