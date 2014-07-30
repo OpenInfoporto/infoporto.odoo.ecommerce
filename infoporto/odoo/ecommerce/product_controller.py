@@ -106,12 +106,15 @@ class CheckoutConfirmActions(BrowserView):
         return self.template()
 
 
-class CartActions(BrowserView):
+class CartUtilities():
 
-    def emptyCart(self):
-        sdm = self.context.session_data_manager
+    def emptyCart(self, context):
+        sdm = context.session_data_manager
         session = sdm.getSessionData(create=True)
         del session['cart_elements']
+
+
+class CartActions(BrowserView):
 
     def __call__(self):
         self.emptyCart()
@@ -161,16 +164,21 @@ class CheckoutDoActions(BrowserView):
 
         pp = PayPal(params=payment)
         if pp.pay():
-            payment['user'] = dict(email=api.user.get_current().email,
+            payment['user'] = dict(email=self.request.get('email'),
                                    name="%s %s" %
                                         (self.request.get('first_name'),
                                          self.request.get('last_name')))
 
             try:
-                self.odoo.createSalesOrder(payment)
-                self.emptyCart()
+                soid = self.odoo.createSalesOrder(payment, cart)
+                cu = CartUtilities()
+                cu.emptyCart(self.context)
+
+                session.set('last_order', soid)
+
                 api.portal.show_message(message='Order confirmed.',
                                         request=self.request, type='info')
+
             except Exception as e:
                 api.portal.show_message(message='Problem creating Sales Orderer',
                                         request=self.request, type='error')
@@ -183,3 +191,8 @@ class CheckoutDoActions(BrowserView):
             logger.error("Problem during payment")
 
         return self.template()
+
+    def get_order_id(self):
+        sdm = self.context.session_data_manager
+        session = sdm.getSessionData(create=True)
+        return session.get('last_order')

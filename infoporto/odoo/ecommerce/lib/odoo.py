@@ -119,22 +119,21 @@ class Odoo(object):
 
         return p
 
-    def createSalesOrder(self, params):
+    def createSalesOrder(self, params, cart):
         """ Create a partner if the e-mail weren't found, create a Sales Order
             and its Sales Order Line """
 
-        # change params to reflect given data
         odoo_core = OdooInstance()
 
         # check if user exists ...
         args = [('email', '=', params['user']['email'])]
         ids = odoo_core.search('res.partner', args)
 
-        # ... otherwise create
+        # ... otherwise create it
         if not ids:
-            user = dict(name=params['user']['name'],
-                        email=params['user']['email'])
-            partner_id = odoo_core.create('res.partner', user)
+            partner_id = odoo_core.create('res.partner',
+                                          dict(name=params['user']['name'],
+                                               email=params['user']['email']))
 
         # build sales order
         so = dict(partner_id=ids[0] or partner_id,
@@ -144,17 +143,17 @@ class Odoo(object):
                   amount_untaxed=params['total'])
         so_id = odoo_core.create('sale.order', so)
 
-        sol = dict(order_id=so_id,
-                   product_uom=1,
-                   price_unit=12.0,
-                   product_uom_qty=1,
-                   state='confirmed',
-                   product_id=2,
-                   order_parter_id=ids[0],
-                   tax_id=[1])
+        for el in cart:
+            sol = dict(order_id=so_id,
+                       product_uom=1,
+                       price_unit=float(el['price_total']),
+                       product_uom_qty=1,
+                       state='confirmed',
+                       product_id=el['id'],
+                       order_partner_id=ids[0],
+                       tax_id=[1])
 
-        sol_id = odoo_core.create('sale.order.line', sol)
+            sol_id = odoo_core.create('sale.order.line', sol)
 
         #FIXME: taxes?!?
-
-        return sol_id
+        return so_id
