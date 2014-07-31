@@ -7,8 +7,8 @@
       i18n:domain="infoporto.odoo.ecommerce">
 <body>
 
-<metal:main fill-slot="content-core">
-  <metal:content-core define-macro="content-core">
+<metal:main fill-slot="main">
+  <metal:content-core define-macro="main">
 
     <h2>Order Summary</h2>
 
@@ -43,7 +43,7 @@
           <tr class="checkout-cart-sum-row">
                 <td></td>
                 <td></td>
-                <!--<td/>-->
+                <td></td>
                 <td>
                     <span class="checkout-cart-total" tal:content="view/get_total_price" />
                 </td>
@@ -116,7 +116,7 @@
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">Proceed</button>
+          <button type="submit" class="btn btn-danger">Proceed</button>
         </div>
       </div>
     </form>
