@@ -101,7 +101,7 @@ class CheckoutConfirmActions(BrowserView):
         cart = self.get_elements()
         if cart:
             for el in cart:
-                total += float(el['price'])
+                total += float(el['price_total'])
 
         return Money(amount=total, currency='EUR')
 
