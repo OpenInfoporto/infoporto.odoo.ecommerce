@@ -102,11 +102,12 @@ class Odoo(object):
     def sanitizeProduct(self, p):
         """ Sanitize product for using in templates """
 
-        # Money fix, currency should be get
         from money import Money
         p['price'] = p['lst_price']
-        p['lst_price'] = Money(amount=p['lst_price'], currency='EUR')
-        p['price_total'] = Money(amount=p['price'] * (1 + p['tax']), currency='EUR')
+        p['lst_price'] = Money(amount=p['lst_price'], 
+                               currency=self.getCurrency().get('currency_id')[1])
+        p['price_total'] = Money(amount=p['price'] * (1 + p['tax']), 
+                                 currency=self.getCurrency().get('currency_id')[1])
 
         p['categ_id'] = p['categ_id'][0]
 

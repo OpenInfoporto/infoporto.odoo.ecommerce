@@ -81,6 +81,7 @@ class ProductActions(BrowserView):
 
 
 class CheckoutConfirmActions(BrowserView):
+    odoo = Odoo()
     template = ViewPageTemplateFile('products_catalog_templates/checkout_data.pt')
 
     def get_user_data(self):
@@ -103,7 +104,8 @@ class CheckoutConfirmActions(BrowserView):
             for el in cart:
                 total += float(el['price_total'])
 
-        return Money(amount=total, currency='EUR')
+        curr = self.odoo.getCurrency()
+        return Money(amount=total, currency=curr.get('currency_id')[1])
 
     def __call__(self):
         return self.template()
@@ -161,7 +163,7 @@ class CheckoutDoActions(BrowserView):
         # parsing cart
         items = []
         total = float(0.0)
-        currency = 'EUR'
+        curr = self.odoo.getCurrency()
 
         for el in cart:
             item = dict(name=el['name'], price=el['price'], sku=el['name'])
@@ -182,7 +184,7 @@ class CheckoutDoActions(BrowserView):
                 "email": self.request.get('email')},
             "items": items,
             "total": total,
-            "currency": currency,
+            "currency": curr.get('currency_id')[1],
             "description": "This is the payment transaction description."}
 
         pp = PayPal(params=payment)
